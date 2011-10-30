@@ -102,14 +102,14 @@ abstract class Editor_Core {
 	{
 		if ($driver === NULL)
 		{
-			$driver = Kohana::config('editor.default_driver');
+			$driver = Kohana::$config->load('editor')->get('default_driver');
 		}
 
 		$class = 'Editor_'.$driver;
 		if ( ! class_exists($class))
 		{
 			// try to load custom configuration
-			$editor = Kohana::config('editor.custom.'.$driver);
+			$editor = Kohana::$config->load('editor')->get('custom.'.$driver);
 			if ( $editor )
 			{
 				$class = 'Editor_'.$editor['driver'];
@@ -129,7 +129,7 @@ abstract class Editor_Core {
 
 	public function __construct(array $options = NULL)
 	{
-		$this->_config = Kohana::config('editor.drivers.'.$this->name);
+		$this->_config = Kohana::$config->load('editor')->get('.drivers.'.$this->name);
 		$this->_options += Arr::get($this->_config, 'options', array()) + (array)$options;
 		if (isset($this->_options['lang']))
 		{
