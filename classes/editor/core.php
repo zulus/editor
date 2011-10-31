@@ -130,7 +130,7 @@ abstract class Editor_Core {
 	public function __construct(array $options = NULL)
 	{
                 $this->_config = Arr::get(Kohana::$config->load('editor')->get('drivers'), $this->name);
-		$this->_options += Arr::get($this->_config, 'options', array()) + (array)$options;
+		$this->_options = Arr::merge($this->_options, Arr::get($this->_config, 'options', array()), (array)$options);
 		if (isset($this->_options['lang']))
 		{
 			$this->lang($this->_options['lang']);
