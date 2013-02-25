@@ -12,7 +12,7 @@
 		<?php echo $label; ?>
 		<span class="field">
 			<?php if ($this->editable()=== TRUE): ?>
-                <?php Editor::factory($this->attr('editor'), $this->attr('options') ? $this->attr('options') : array())->value($this->val())->render(true, $this->field()->name(), true); ?>
+                <?php Editor::factory($this->get('editor'), $this->get('options') ? $this->get('options') : array())->value($this->val())->render(true, $this->field()->name(), true); ?>
 			<?php else: ?>
 				<span><?php echo $this->val(); ?></span>
 			<?php endif; ?>
