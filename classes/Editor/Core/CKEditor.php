@@ -4,9 +4,9 @@ abstract class Editor_Core_CKEditor extends Editor {
 
 	protected $_options = array(
 		'toolbar'        => 'Basic', // Basic|Full or create your custom toolbar
-		'skin'           => 'v2',
+		'skin'           => 'moono',
 		'width'          => 600,
-		'height'         => 300,
+		'height'         => 300
 	);
 
 	protected function _js()

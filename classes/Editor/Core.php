@@ -41,6 +41,11 @@ abstract class Editor_Core {
 
 	public $template;
 
+    private function escape_id($id)
+    {
+        return str_replace(array('[', ']', '='), array('-', '', '-'), $id);
+    }
+
 	public function render($display = FALSE, $name = NULL, $create_new = FALSE)
 	{
 		if ($name)
@@ -57,16 +62,26 @@ abstract class Editor_Core {
 		{
 			$this->_options['value'] = '';
 		}
+        if (empty($this->_options['id'])) {
+		    $this->_options['id'] = $this->escape_id($this->_options['name']);
+        } else {
+            $this->_options['id'] = $this->escape_id($this->_options['id']);
+        }
 
 		$template = View::factory($this->template)
 			->set('create_new', $create_new)
 			->set('name', $this->_options['name'])
+			->set('id', $this->_options['id'])
 			->set('options', $this->_options);
 
 		$result = '';
 		if ($create_new)
 		{
-			$result .= "<textarea name='{$this->_options['name']}' id='{$this->_options['name']}'>".htmlspecialchars($this->_options['value'])."</textarea>";
+			$result .= sprintf('<textarea name="%s" id="%s">%s</textarea>',
+			        $this->_options['name'],
+			        $this->_options['id'],
+			        htmlspecialchars($this->_options['value'])
+			);
 		}
 
 		if ( ! $this->_css_rendered)
@@ -109,7 +124,7 @@ abstract class Editor_Core {
 		if ( ! class_exists($class))
 		{
 			// try to load custom configuration
-                        $editor = Arr::get(Kohana::$config->load('editor')->get('custom'), $driver);
+            $editor = Arr::get(Kohana::$config->load('editor')->get('custom'), $driver);
 			if ( $editor )
 			{
 				$class = 'Editor_'.$editor['driver'];
@@ -129,7 +144,7 @@ abstract class Editor_Core {
 
 	public function __construct(array $options = NULL)
 	{
-                $this->_config = Arr::get(Kohana::$config->load('editor')->get('drivers'), $this->name);
+        $this->_config = Arr::get(Kohana::$config->load('editor')->get('drivers'), $this->name);
 		$this->_options = Arr::merge($this->_options, Arr::get($this->_config, 'options', array()), (array)$options);
 		if (isset($this->_options['lang']))
 		{
@@ -162,7 +177,7 @@ abstract class Editor_Core {
 				$filename = rtrim($this->_config['js_path'], '/').'/'.ltrim($filename, '/');
 			}
 
-			$result[] = $render === TRUE ? html::script($filename) : $filename;
+			$result[] = $render === TRUE ? HTML::script($filename) : $filename;
 		}
 
 		if ($render === TRUE)
@@ -194,13 +209,13 @@ abstract class Editor_Core {
 			}
 
 			self::$_rendered['css'][$filename] = $filename;
-			
+
 			if ($this->_css_prefix)
 			{
 				$filename = rtrim($this->_config['css_path'], '/').'/'.ltrim($filename, '/');
 			}
 
-			$result[] = $render === TRUE ? html::style($filename) : $filename;
+			$result[] = $render === TRUE ? HTML::style($filename) : $filename;
 		}
 
 		if ($render === TRUE)
@@ -249,7 +264,7 @@ abstract class Editor_Core {
 			{
 				$this->lang(I18n::lang());
 			}
-			
+
 			return $this->_lang;
 		}
 

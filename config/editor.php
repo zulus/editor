@@ -5,20 +5,20 @@ return array(
 	'default_driver'  => 'elrte',
 
 	'drivers'         => array(
-		'tinymce'         => array(
+		'TinyMCE'         => array(
 			'js_path'        => 'media/editor/tinymce/js/',
 			'options'        => array(
 				'theme'         => 'advanced',
 			),
 		),
-		'elrte'           => array(
+		'Elrte'           => array(
 			'css_path'       => 'media/editor/elrte/css/',
 			'js_path'        => 'media/editor/elrte/js/',
 		),
-		'ckeditor'         => array(
+		'CKEditor'         => array(
 			'js_path'         => 'media/editor/ckeditor/',
 		),
-		'markitup'         => array(
+		'MarkitUp'         => array(
 			'js_path'         => 'media/editor/markitup/',
 			// no css_path, only skins&sets here!
 			'skin_path'       => 'media/editor/markitup/skins/',
@@ -28,7 +28,7 @@ return array(
 
 	'custom'          => array(
 		'test'           => array(
-			'driver'        => 'tinymce',
+			'driver'        => 'TinyMCE',
 			'options'       => array(
 				'width'        => 700,
 				'height'       => 300,
